@@ -1,4 +1,5 @@
 from tkinter import Tk
+from window import Window
 from menu import Menu
 from json import load, dump
 
@@ -20,5 +21,6 @@ if __name__ == "__main__":
 
     window = Tk()
     window.title("Minesweeper")
+    Window(window)
     Menu(window,leaderboard,savedGame)
     window.mainloop()
