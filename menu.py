@@ -8,7 +8,7 @@ class Menu(Window):
         self.leaderList = leaderboard
         self.savedDict = savedGame
         self.saved = savedGame["board"] is not None
-        self.frame = ttk.Frame(super().window)
+        self.frame = ttk.Frame(self.window)
 
         self.frame.grid(sticky='nsew')
         self.split(self.frame,20,60,20,10,1,1)
@@ -37,7 +37,7 @@ class Menu(Window):
         pass
 
     def leaderboard(self):
-        pass
+        Leaderboard(self.leaderList)
 
     def quit(self):
-        super().window.destroy()
+        self.window.destroy()

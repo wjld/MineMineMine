@@ -8,7 +8,7 @@ if __name__ == "__main__":
         with open("./leaderboard.json") as leaderFile:
             leaderboard = load(leaderFile)
     except(FileNotFoundError, JSONDecodeError):
-        leaderboard = [[x,""] for x in range(1,11)]
+        leaderboard = [["",0] for _ in range(10)]
         with open("./leaderboard.json","w") as leaderFile:
             dump(leaderboard,leaderFile)
     try:
