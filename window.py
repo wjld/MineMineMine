@@ -1,8 +1,10 @@
 from tkinter import Tk, ttk
 
 class Window:
-    def __init__(self, window:Tk):
-        self.window = window
+    window = Tk()
+    
+    def __init__(self):
+        self.window.title("Minesweeper")
         self.window.minsize(400, 600)
         self.window.columnconfigure(0,weight=1)
         self.window.rowconfigure(0,weight=1)

@@ -1,15 +1,14 @@
-from tkinter import Tk, ttk
+from tkinter import ttk
 from window import Window
 from game import Game
 from leaderboard import Leaderboard
 
 class Menu(Window):
-    def __init__(self,window:Tk,leaderboard:list,savedGame:dict):
-        self.window = window
+    def __init__(self,leaderboard:list,savedGame:dict):
         self.leaderList = leaderboard
         self.savedDict = savedGame
         self.saved = savedGame["board"] is not None
-        self.frame = ttk.Frame(self.window)
+        self.frame = ttk.Frame(super().window)
 
         self.frame.grid(sticky='nsew')
         self.split(self.frame,20,60,20,10,1,1)
@@ -41,4 +40,4 @@ class Menu(Window):
         pass
 
     def quit(self):
-        self.window.destroy()
+        super().window.destroy()

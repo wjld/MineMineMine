@@ -19,8 +19,6 @@ if __name__ == "__main__":
         with open("./save.json","w") as saveFile:
             dump(savedGame, saveFile)
 
-    window = Tk()
-    window.title("Minesweeper")
-    Window(window)
-    Menu(window,leaderboard,savedGame)
-    window.mainloop()
+    Window()
+    Menu(leaderboard,savedGame)
+    Window.window.mainloop()
