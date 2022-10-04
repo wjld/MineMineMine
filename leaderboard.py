@@ -3,7 +3,7 @@ from window import Window
 from json import dump
 
 class Leaderboard(Window):
-    def __init__(self,leaderList:list):
+    def __init__(self,leaderList:list[list]):
         self.leaderList = leaderList
         self.frame = ttk.Frame(self.window)
         

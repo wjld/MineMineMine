@@ -2,12 +2,19 @@ from tkinter import ttk
 from window import Window
 from game import Game
 from leaderboard import Leaderboard
+from json import JSONDecodeError, load, dump
 
 class Menu(Window):
-    def __init__(self,leaderboard:list,savedGame:dict):
-        self.leaderList = leaderboard
-        self.savedDict = savedGame
-        self.saved = savedGame["board"] is not None
+    def __init__(self):
+        try:
+            with open("./save.json") as saveFile:
+                self.savedGame = load(saveFile)
+        except(FileNotFoundError, JSONDecodeError):
+            self.savedGame = {"board":None,"mines":None}
+            with open("./save.json","w") as saveFile:
+                dump(self.savedGame, saveFile)
+
+        self.saved = self.savedGame["board"] is not None
         self.frame = ttk.Frame(self.window)
 
         self.frame.grid(sticky='nsew')
@@ -37,7 +44,14 @@ class Menu(Window):
         pass
 
     def leaderboard(self):
-        Leaderboard(self.leaderList)
+        try:
+            with open("./leaderboard.json") as leaderFile:
+                leaderList = load(leaderFile)
+        except(FileNotFoundError, JSONDecodeError):
+            leaderList = [["",0] for _ in range(10)]
+            with open("./leaderboard.json","w") as leaderFile:
+                dump(leaderList,leaderFile)
+        Leaderboard(leaderList)
 
     def quit(self):
         self.window.destroy()
