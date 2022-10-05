@@ -3,8 +3,8 @@ from window import Window
 from json import dump
 
 class Leaderboard(Window):
-    def __init__(self,leaderList:list[list]):
-        self.leaderList = leaderList
+    def __init__(self):
+        self.getLeaderboard()
         self.frame = ttk.Frame(self.window)
         
         self.frame.grid(row=0,column=0,sticky='nsew')
@@ -29,9 +29,8 @@ class Leaderboard(Window):
         backB.grid(row=9,column=11,rowspan=4,columnspan=8,sticky='nsew')
     
     def reset(self):
-        self.leaderList = [["",0] for _ in range(10)]
-        with open("./leaderboard.json","w") as leaderFile:
-            dump(self.leaderList,leaderFile)
+        self.setLeaderboard()
+        self.getLeaderboard()
         
         self.frame.destroy()
         self.frame = ttk.Frame(self.window)
