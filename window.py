@@ -3,15 +3,14 @@ from json import JSONDecodeError, load, dump
 
 class Window:
     window = Tk()
+    window.title("Minesweeper")
+    window.minsize(400, 600)
+    window.columnconfigure(0,weight=1)
+    window.rowconfigure(0,weight=1)
     leaderList = []
     savedGame = {}
     
     def __init__(self):
-        self.window.title("Minesweeper")
-        self.window.minsize(400, 600)
-        self.window.columnconfigure(0,weight=1)
-        self.window.rowconfigure(0,weight=1)
-
         ttk.Style().configure("title.TLabel", font=("Courier New",40))
         ttk.Style().configure("description.TLabel", font=("Courier New",20))
         ttk.Style().configure("options.TButton", font=("Courier New",15))
@@ -20,9 +19,9 @@ class Window:
         self.getSavedGame()
     
     def setLeaderboard(self):
-        self.leaderList = [["",0] for _ in range(10)]
+        Window.leaderList = [["",0] for _ in range(10)]
         with open("./leaderboard.json","w") as leaderFile:
-            dump(self.leaderList,leaderFile)
+            dump(Window.leaderList,leaderFile)
     
     def getLeaderboard(self):
         try:
@@ -40,7 +39,7 @@ class Window:
         except(FileNotFoundError, JSONDecodeError):
             Window.savedGame = {"board":None,"mines":None}
             with open("./save.json","w") as saveFile:
-                dump(self.savedGame, saveFile)
+                dump(Window.savedGame, saveFile)
     
     def split(self,frame:ttk.Frame,xLength:int,yLength:int,xSize:int,ySize:int,xWeight:int,yWeight:int):
         for i in range(max(xLength,yLength)):
