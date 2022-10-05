@@ -1,6 +1,5 @@
 from tkinter import ttk
 from window import Window
-from json import dump
 
 class Leaderboard(Window):
     def __init__(self):
@@ -32,10 +31,8 @@ class Leaderboard(Window):
         self.setLeaderboard()
         self.getLeaderboard()
         
-        self.frame.destroy()
-        self.frame = ttk.Frame(self.window)
-        self.frame.grid(row=0,column=0,sticky="nsew")
-        self.split(self.frame,20,60,20,10,1,1)
+        for widget in self.frame.winfo_children():
+            widget.destroy()
         self.setWidgets()
 
     def back(self):
