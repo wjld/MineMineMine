@@ -4,11 +4,11 @@ from json import dump
 
 class Leaderboard(Window):
     def __init__(self):
-        self.getLeaderboard()
         self.frame = ttk.Frame(self.window)
         
-        self.frame.grid(row=0,column=0,sticky='nsew')
+        self.frame.grid(row=0,sticky="nsew")
         self.split(self.frame,20,60,20,10,1,1)
+        self.getLeaderboard()
         self.setWidgets()
     
     def setWidgets(self):
@@ -25,8 +25,8 @@ class Leaderboard(Window):
         for score in scores:
             score.grid(row=x,column=1,rowspan=4,columnspan=18)
             x += 4
-        resetB.grid(row=9,column=1,rowspan=4,columnspan=8,sticky='nsew')
-        backB.grid(row=9,column=11,rowspan=4,columnspan=8,sticky='nsew')
+        resetB.grid(row=9,column=1,rowspan=4,columnspan=8,sticky="nsew")
+        backB.grid(row=9,column=11,rowspan=4,columnspan=8,sticky="nsew")
     
     def reset(self):
         self.setLeaderboard()
@@ -34,7 +34,7 @@ class Leaderboard(Window):
         
         self.frame.destroy()
         self.frame = ttk.Frame(self.window)
-        self.frame.grid(row=0,column=0,sticky='nsew')
+        self.frame.grid(row=0,column=0,sticky="nsew")
         self.split(self.frame,20,60,20,10,1,1)
         self.setWidgets()
 
