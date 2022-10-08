@@ -5,10 +5,10 @@ from leaderboard import Leaderboard
 
 class Menu(Window):
     def __init__(self):
-        self.saved = self.savedGame["board"] is not None
+        self.saved = bool(self.savedGame)
         self.frame = ttk.Frame(self.window)
         
-        self.frame.grid(sticky="nsew")
+        self.frame.grid(rowspan=2,columnspan=2,sticky="nsew")
         self.split(self.frame,20,60,20,10,1,1)
         self.setWidgets()    
 
@@ -29,10 +29,10 @@ class Menu(Window):
             _continueB.state(["disabled"])
 
     def newGame(self):
-        pass
+        Game()
 
     def _continue(self):
-        pass
+        Game(_continue=True)
 
     def leaderboard(self):
         Leaderboard()

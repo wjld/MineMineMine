@@ -5,7 +5,7 @@ class Leaderboard(Window):
     def __init__(self):
         self.frame = ttk.Frame(self.window)
         
-        self.frame.grid(row=0,sticky="nsew")
+        self.frame.grid(row=0,column=0,rowspan=2,columnspan=2,sticky="nsew")
         self.split(self.frame,20,60,20,10,1,1)
         self.getLeaderboard()
         self.setWidgets()
