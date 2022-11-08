@@ -2,36 +2,41 @@ from tkinter import Canvas, ttk
 from random import randint
 
 from window import Window
+import dimensions
 
 
 class Game(Window):
     def __init__(self,_continue=False):
-        self.labelFrame = ttk.Frame(self.window)
+        self.statsFrame = ttk.Frame(self.window)
         self.optionsFrame = ttk.Frame(self.window)
         self.gameFrame = ttk.Frame(self.window,)
         self.squares:dict[tuple,Canvas] = {}
 
-        self.labelFrame.grid(row=0,column=0,sticky="nsew")
-        self.optionsFrame.grid(row=0,column=1,sticky="nsew")
+        self.statsFrame.grid(row=0,column=0,sticky="nse")
+        self.optionsFrame.grid(row=0,column=1,sticky="nsw")
         self.gameFrame.grid(row=1,columnspan=2,padx=20,pady=20,sticky="nsew")
-        self.split(self.labelFrame,1,1,200,200,1,1)
-        self.split(self.optionsFrame,5,20,40,10,1,1)
+        self.split(self.statsFrame,*dimensions.statsFrame(180,400))
+        self.split(self.optionsFrame,*dimensions.optionsFrame(180,400))
 
         self.started = False
         self.xLength,self.yLength = 9,9
         self.minesQ = 10
         self.opened = 0
-        self.split(self.gameFrame,self.xLength,self.yLength,40,40,1,1)
+        self.split(self.gameFrame,self.xLength,self.yLength,40,40)
         self.setWidgets(_continue)
 
     def setWidgets(self,_continue):
-        title = ttk.Label(self.labelFrame,text="000",style="time.TLabel")
-        saveB = ttk.Button(self.optionsFrame,command=self.save,text="Save",style="smallOptions.TButton")
-        quitB = ttk.Button(self.optionsFrame,command=self.quit,text="Quit",style="smallOptions.TButton")
+        timer = ttk.Label(self.statsFrame,text="000",style="stats.TLabel")
+        mines = ttk.Label(self.statsFrame,text="000",style="stats.TLabel")
+        saveB = ttk.Button(self.optionsFrame,command=self.save,text="Save",
+                           style="smallOptions.TButton",width=4)
+        quitB = ttk.Button(self.optionsFrame,command=self.quit,text="Quit",
+                           style="smallOptions.TButton",width=4)
 
-        title.grid()
-        saveB.grid(row=6,column=1,rowspan=4,columnspan=3,sticky="nsew")
-        quitB.grid(row=10,column=1,rowspan=4,columnspan=3,sticky="nsew")
+        timer.grid(row=0,rowspan=2,sticky="nsew")
+        mines.grid(row=2,rowspan=2,sticky="nsew")
+        saveB.grid(row=1,column=1,rowspan=5,columnspan=3,sticky="nsew")
+        quitB.grid(row=7,column=1,rowspan=5,columnspan=3,sticky="nsew")
 
         if not _continue:
             self.generateField(0,0)
@@ -113,6 +118,6 @@ class Game(Window):
         self.quit()
 
     def quit(self):
-        self.labelFrame.destroy()
+        self.statsFrame.destroy()
         self.gameFrame.destroy()
         self.optionsFrame.destroy()

@@ -50,9 +50,10 @@ class Window:
             with open("./save.json","w") as saveFile:
                 dump(Window.savedGame,saveFile)
 
-    def split(self,frame:ttk.Frame,xLength:int,yLength:int,xSize:int,ySize:int,xWeight:int,yWeight:int):
-        for i in range(max(xLength,yLength)):
+    def split(self,frame,xLength,yLength,xSize,ySize,i=0):
+        if i < xLength or i < yLength:
             if i < xLength:
-                frame.columnconfigure(i,minsize=xSize,weight=xWeight)
+                frame.columnconfigure(i,minsize=xSize,weight=1)
             if i < yLength:
-                frame.rowconfigure(i,minsize=ySize,weight=yWeight)
+                frame.rowconfigure(i,minsize=ySize,weight=1)
+            self.split(frame,xLength,yLength,xSize,ySize,i+1)

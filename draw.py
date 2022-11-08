@@ -1,7 +1,7 @@
 def style(window,s,x,y):
     s.configure("title.TLabel",anchor="center",font=("Courier New",
                 int(-y*0.085)))
-    s.configure("time.TLabel",anchor="center",font=("Courier New",
+    s.configure("stats.TLabel",anchor="center",font=("Courier New",
                 int(-y*0.145)))
     s.configure("highscore.TLabel",font=("Courier New",int(-y*0.044)))
     s.configure("dialog.TLabel",font=("Courier New",int(-y*0.045)),
