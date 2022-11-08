@@ -1,6 +1,8 @@
 from tkinter import Canvas, ttk
-from window import Window
 from random import randint
+
+from window import Window
+
 
 class Game(Window):
     def __init__(self,_continue=False):
@@ -21,7 +23,7 @@ class Game(Window):
         self.opened = 0
         self.split(self.gameFrame,self.xLength,self.yLength,40,40,1,1)
         self.setWidgets(_continue)
-    
+
     def setWidgets(self,_continue):
         title = ttk.Label(self.labelFrame,text="000",style="time.TLabel")
         saveB = ttk.Button(self.optionsFrame,command=self.save,text="Save",style="smallOptions.TButton")
@@ -34,7 +36,7 @@ class Game(Window):
         if not _continue:
             self.generateField(0,0)
         self.drawField(list(self.savedGame.items()))
-    
+
     def generateField(self,r:int,c:int,recursion=False):
         opened,flagged,mined,count = False,False,False,0
         self.savedGame[f"{r} {c}"] = [opened,flagged,mined,count]
@@ -43,7 +45,7 @@ class Game(Window):
             self.generateField(r+1,c)
         if c < self.xLength - 1:
             self.generateField(r,c+1,True)
-    
+
     def drawField(self,field):
         if field:
             info = field.pop()
@@ -64,7 +66,7 @@ class Game(Window):
             square.bind("<3>",lambda e,r=r,c=c:self.flag(r,c))
             square.bind("<Enter>",lambda e,r=r,c=c:self.hover(r,c,True))
             square.bind("<Leave>",lambda e,r=r,c=c:self.hover(r,c,False))
-            
+
             self.drawField(field)
 
     def hover(self,row,column,hovering):
@@ -75,7 +77,7 @@ class Game(Window):
         elif not opened:
             color = "gray40" if (row+column)%2 else "gray45"
             square.config(bg=color)
-            
+
     def open(self,row,column):
         self.savedGame[f"{row} {column}"][0] = True
         square = self.squares[(row,column)]
@@ -84,16 +86,16 @@ class Game(Window):
 
     def iterAdjacent(self):
         pass
-    
+
     def inField(self,row,column):
         pass
 
     def flag(self,row,column):
         pass
-    
+
     def layMines(self,quantity,row,column):
         pass
-        
+
     def count(self):
         pass
 

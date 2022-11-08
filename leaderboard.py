@@ -1,15 +1,17 @@
 from tkinter import ttk
+
 from window import Window
+
 
 class Leaderboard(Window):
     def __init__(self):
         self.frame = ttk.Frame(self.window)
-        
+
         self.frame.grid(row=0,column=0,rowspan=2,columnspan=2,sticky="nsew")
         self.split(self.frame,20,60,20,10,1,1)
         self.getLeaderboard()
         self.setWidgets()
-    
+
     def setWidgets(self):
         title = ttk.Label(self.frame,text="HIGHSCORES",style="title.TLabel")
         resetB = ttk.Button(self.frame,command=self.reset,text="Reset",style="options.TButton")
@@ -26,11 +28,11 @@ class Leaderboard(Window):
             x += 4
         resetB.grid(row=9,column=1,rowspan=4,columnspan=8,sticky="nsew")
         backB.grid(row=9,column=11,rowspan=4,columnspan=8,sticky="nsew")
-    
+
     def reset(self):
         self.setLeaderboard()
         self.getLeaderboard()
-        
+
         for widget in self.frame.winfo_children():
             widget.destroy()
         self.setWidgets()

@@ -1,16 +1,18 @@
 from tkinter import ttk
+
 from window import Window
 from game import Game
 from leaderboard import Leaderboard
+
 
 class Menu(Window):
     def __init__(self):
         self.saved = bool(self.savedGame)
         self.frame = ttk.Frame(self.window)
-        
+
         self.frame.grid(rowspan=2,columnspan=2,sticky="nsew")
         self.split(self.frame,20,60,20,10,1,1)
-        self.setWidgets()    
+        self.setWidgets()
 
     def setWidgets(self):
         title = ttk.Label(self.frame,text="MINESWEEPER",style="title.TLabel")
