@@ -1,6 +1,9 @@
 from tkinter import Tk, ttk
 from json import JSONDecodeError, load, dump
 
+from draw import style
+
+
 class Window:
     window = Tk()
     window.title("Minesweeper")
@@ -16,12 +19,7 @@ class Window:
     savedGame = {}
     
     def __init__(self):
-        ttk.Style().configure("title.TLabel",font=("Courier New",40))
-        ttk.Style().configure("time.TLabel",font=("Courier New",65))
-        ttk.Style().configure("description.TLabel",font=("Courier New",20))
-        ttk.Style().configure("options.TButton",font=("Courier New",15))
-        ttk.Style().configure("smallOptions.TButton",font=("Courier New",13))
-
+        style(self.window,ttk.Style(),400,600)
         self.getLeaderboard()
         self.getSavedGame()
     

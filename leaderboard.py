@@ -17,7 +17,7 @@ class Leaderboard(Window):
         scores = []
         for order, data in enumerate(self.leaderList, 1):
             score = f"{order:02d} - {data[0]:^8} - {data[1]:03d}"
-            scores.append(ttk.Label(self.frame,text=score,style="description.TLabel"))
+            scores.append(ttk.Label(self.frame,text=score,style="highscore.TLabel"))
 
         title.grid(row=1,column=1,rowspan=7,columnspan=18)
         x = 19
