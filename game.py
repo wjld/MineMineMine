@@ -7,22 +7,25 @@ import dimensions
 
 class Game(Window):
     def __init__(self,_continue=False):
+        self.started = False
+        self.opened = 0
         self.statsFrame = ttk.Frame(self.window)
         self.optionsFrame = ttk.Frame(self.window)
         self.gameFrame = ttk.Frame(self.window,)
         self.squares:dict[tuple,Canvas] = {}
+        self.xLength,self.yLength,self.minesQ = self.sizes["Easy"]
 
         self.statsFrame.grid(row=0,column=0,sticky="nse")
         self.optionsFrame.grid(row=0,column=1,sticky="nsw")
-        self.gameFrame.grid(row=1,columnspan=2,padx=20,pady=20,sticky="nsew")
-        self.split(self.statsFrame,*dimensions.statsFrame(180,400))
-        self.split(self.optionsFrame,*dimensions.optionsFrame(180,400))
+        self.gameFrame.grid(row=1,columnspan=2,padx=self.minPad,
+                            pady=self.minPad,sticky="nsew")
+        self.split(self.statsFrame,*dimensions.statsFrame(self.minTopRowY,
+                   self.getMinSize("Easy")[0]))
+        self.split(self.optionsFrame,*dimensions.optionsFrame(self.minTopRowY,
+                   self.getMinSize("Easy")[0]))
+        self.split(self.gameFrame,self.xLength,self.yLength,
+                   self.minSquareSize,self.minSquareSize)
 
-        self.started = False
-        self.xLength,self.yLength = 9,9
-        self.minesQ = 10
-        self.opened = 0
-        self.split(self.gameFrame,self.xLength,self.yLength,40,40)
         self.setWidgets(_continue)
 
     def setWidgets(self,_continue):

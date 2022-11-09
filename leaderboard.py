@@ -9,7 +9,7 @@ class Leaderboard(Window):
         self.frame = ttk.Frame(self.window)
 
         self.frame.grid(row=0,column=0,rowspan=2,columnspan=2,sticky="nsew")
-        self.split(self.frame,*mainFrame(400,600))
+        self.split(self.frame,*mainFrame(*self.getMinSize("Easy")))
         self.getLeaderboard()
         self.setWidgets()
 

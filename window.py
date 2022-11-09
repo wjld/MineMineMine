@@ -5,23 +5,57 @@ from draw import style
 
 
 class Window:
-    window = Tk()
-    window.title("Minesweeper")
-    window.minsize(400,600)
-    window.rowconfigure(0,weight=0)
-    window.columnconfigure(0,weight=3)
-    window.rowconfigure(0,weight=0)
-    window.columnconfigure(1,weight=1)
-    window.rowconfigure(1,weight=1)
-    window.columnconfigure(0,weight=1)
-
-    leaderList = []
-    savedGame = {}
+    window = None
+    size = None
+    proportionalSize = None
+    style = None
+    leaderList = None
+    savedGame = None
+    minSquareSize = 40
+    minTopRowY = 200
+    minPad = 20
+    sizes = {"Easy":(9,9,10),}
 
     def __init__(self):
-        style(self.window,ttk.Style(),400,600)
+        Window.window = Tk()
+        Window.style = ttk.Style()
+        self.window.title("Minesweeper")
+        self.window.rowconfigure(0,weight=1)
+        self.window.rowconfigure(1,weight=9)
+        self.window.columnconfigure(0,weight=1)
+        self.window.columnconfigure(1,weight=1)
+        self.window.bind("<Configure>",self.manageSize)
+
         self.getLeaderboard()
         self.getSavedGame()
+        Window.proportionalSize = self.getMinSize("Easy")
+        self.setMinSize(*self.proportionalSize)
+
+    def manageSize(self,event):
+        if isinstance(event.widget,Tk) and self.isResizing(event):
+            Window.size = (event.width,event.height)
+            x,y = self.getMinSize("Easy")
+            aspectRatio = x/y
+            maxY = int(event.width/aspectRatio)
+
+            if maxY < event.height:
+                Window.proportionalSize = (event.width,maxY)
+            else:
+                Window.proportionalSize = self.size
+
+            style(self.window,self.style,*self.proportionalSize)
+
+    def isResizing(self,event):
+        return (event.width,event.height) != self.size
+
+    def getMinSize(self,level):
+        x,y,_ = self.sizes[level]
+        x = (x*self.minSquareSize)+(2*self.minPad)
+        y = (y*self.minSquareSize)+(2*self.minPad)+self.minTopRowY
+        return x,y
+
+    def setMinSize(self,x,y):
+        self.window.minsize(x,y)
 
     def setLeaderboard(self):
         Window.leaderList = [["",0] for _ in range(10)]
