@@ -7,6 +7,7 @@ import dimensions
 
 class Game(Window):
     def __init__(self,_continue=False):
+        Window.game = self
         self.started = False
         self.opened = 0
         self.statsFrame = ttk.Frame(self.window)
@@ -124,3 +125,4 @@ class Game(Window):
         self.statsFrame.destroy()
         self.gameFrame.destroy()
         self.optionsFrame.destroy()
+        self.toMenu()

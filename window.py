@@ -9,6 +9,9 @@ class Window:
     size = None
     proportionalSize = None
     style = None
+    menu = None
+    game = None
+    leaderboard = None
     leaderList = None
     savedGame = None
     minSquareSize = 40
@@ -57,8 +60,8 @@ class Window:
     def setMinSize(self,x,y):
         self.window.minsize(x,y)
 
-    def setLeaderboard(self):
-        Window.leaderList = [["",0] for _ in range(10)]
+    def setLeaderboard(self,leaderList):
+        Window.leaderList = leaderList
         with open("./leaderboard.json","w") as leaderFile:
             dump(Window.leaderList,leaderFile)
 
@@ -71,7 +74,8 @@ class Window:
             with open("./leaderboard.json","w") as leaderFile:
                 dump(self.leaderList,leaderFile)
 
-    def setSavedGame(self):
+    def setSavedGame(self,savedGame):
+        Window.savedGame = savedGame
         with open("./save.json","w") as saveFile:
                 dump(Window.savedGame,saveFile)
 
@@ -83,6 +87,11 @@ class Window:
             Window.savedGame = {}
             with open("./save.json","w") as saveFile:
                 dump(Window.savedGame,saveFile)
+
+    def toMenu(self):
+        self.getSavedGame()
+        self.setMinSize(*self.getMinSize("Easy"))
+        self.menu.display()
 
     def split(self,frame,xLength,yLength,xSize,ySize,i=0):
         if i < xLength or i < yLength:

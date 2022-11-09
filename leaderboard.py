@@ -6,12 +6,17 @@ from dimensions import mainFrame
 
 class Leaderboard(Window):
     def __init__(self):
+        Window.leaderboard = self
         self.frame = ttk.Frame(self.window)
 
         self.frame.grid(row=0,column=0,rowspan=2,columnspan=2,sticky="nsew")
         self.split(self.frame,*mainFrame(*self.getMinSize("Easy")))
         self.getLeaderboard()
         self.setWidgets()
+        self.frame.grid_remove()
+    
+    def display(self):
+        self.frame.grid()
 
     def setWidgets(self):
         title = ttk.Label(self.frame,text="HIGHSCORES",style="title.TLabel")
@@ -41,4 +46,5 @@ class Leaderboard(Window):
         self.setWidgets()
 
     def back(self):
-        self.frame.destroy()
+        self.frame.grid_remove()
+        self.toMenu()

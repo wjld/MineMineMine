@@ -8,8 +8,9 @@ from dimensions import mainFrame
 
 class Menu(Window):
     def __init__(self):
-        self.saved = bool(self.savedGame)
+        Window.menu = self
         self.frame = ttk.Frame(self.window)
+        Leaderboard()
 
         self.frame.grid(rowspan=2,columnspan=2,sticky="nsew")
         self.split(self.frame,*mainFrame(*self.getMinSize("Easy")))
@@ -21,7 +22,7 @@ class Menu(Window):
                               text="New Game",style="options.TButton")
         continueB = ttk.Button(self.frame,command=self._continue,
                                text="Continue Game",style="options.TButton")
-        leaderboardB = ttk.Button(self.frame,command=self.leaderboard,
+        leaderboardB = ttk.Button(self.frame,command=self._leaderboard,
                                   text="Leaderboard",style="options.TButton")
         quitB = ttk.Button(self.frame,command=self.quit,text="Quit",
                            style="options.TButton")
@@ -32,18 +33,30 @@ class Menu(Window):
         leaderboardB.grid(row=35,column=5,rowspan=4,columnspan=10,
                           sticky="nsew")
         quitB.grid(row=40,column=5,rowspan=4,columnspan=10,sticky="nsew")
+        continueB.bind("<Visibility>",self.updateState)
 
-        if not self.saved:
-            continueB.state(["disabled"])
+    def display(self):
+        self.frame.grid()
+
+    def updateState(self,event):
+        if self.savedGame:
+            event.widget.state(["!disabled"])
+        else:
+            event.widget.state(["disabled"])
 
     def newGame(self):
+        self.frame.grid_remove()
+        self.setSavedGame({})
         Game()
 
     def _continue(self):
+        self.frame.grid_remove()
+        self.getSavedGame()
         Game(_continue=True)
 
-    def leaderboard(self):
-        Leaderboard()
+    def _leaderboard(self):
+        self.frame.grid_remove()
+        self.leaderboard.display()
 
     def quit(self):
         self.window.destroy()
