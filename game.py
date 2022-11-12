@@ -9,17 +9,19 @@ class Game(Window):
     def __init__(self,_continue=False):
         Window.game = self
         self.started = False
+        self.state = self.window.state()
         self.opened = 0
         self.statsFrame = ttk.Frame(self.window)
         self.optionsFrame = ttk.Frame(self.window)
         self.gameFrame = ttk.Frame(self.window,)
-        self.squares:dict[tuple,Canvas] = {}
+        self.squares = {}
         self.xLength,self.yLength,self.minesQ = self.sizes["Easy"]
 
         self.statsFrame.grid(row=0,column=0,sticky="nse")
         self.optionsFrame.grid(row=0,column=1,sticky="nsw")
-        self.gameFrame.grid(row=1,columnspan=2,padx=self.minPad,
-                            pady=self.minPad,sticky="nsew")
+        self.gameFrame.grid(row=1,columnspan=2,sticky="nsew")
+        self.gameFrame.event_add("<<PadGame>>","<Configure>","<Map>")
+        self.gameFrame.bind("<<PadGame>>",self.padGame)
         self.split(self.statsFrame,*dimensions.statsFrame(self.minTopRowY,
                    self.getMinSize("Easy")[0]))
         self.split(self.optionsFrame,*dimensions.optionsFrame(self.minTopRowY,
@@ -29,6 +31,44 @@ class Game(Window):
 
         self.setWidgets(_continue)
 
+    def padGame(self,event):
+        if self.fromMaximized():
+            self.gameFrame.bind("<<PadGame>>",lambda e:None)
+            self.gameFrame.config(padding=(self.minPad,self.minPad))
+            self.gameFrame.bind("<<PadGame>>",self.padGame)
+            return
+
+        if isinstance(event.width,int):
+            width,height = event.width,event.height
+        else:
+            width = self.gameFrame.winfo_width()
+            height = self.gameFrame.winfo_height()
+
+        aspectRatio = self.xLength/self.yLength
+        gameWidth = width - 2 * self.minPad
+        gameHeight = height - 2 * self.minPad
+
+        if gameWidth/aspectRatio < gameHeight:
+            yPad = int((height - gameWidth/aspectRatio)/2)
+            self.gameFrame.config(padding=(self.minPad,yPad))
+            self.squareDimensions = dimensions.square(gameWidth//self.xLength)
+        elif gameWidth/aspectRatio > gameHeight:
+            xPad = int((width - gameHeight*aspectRatio)/2)
+            self.gameFrame.config(padding=(xPad,self.minPad))
+            self.squareDimensions = dimensions.square(gameHeight//self.yLength)
+        else:
+            self.gameFrame.config(padding=(self.minPad,self.minPad))
+            self.squareDimensions = dimensions.square(gameHeight//self.yLength)
+
+    def fromMaximized(self):
+        current = self.window.state()
+        if self.state == "zoomed" and current != self.state:
+            self.state = current
+            return True
+        else:
+            self.state = current
+            return False
+
     def setWidgets(self,_continue):
         timer = ttk.Label(self.statsFrame,text="000",style="stats.TLabel")
         mines = ttk.Label(self.statsFrame,text="000",style="stats.TLabel")
@@ -37,10 +77,10 @@ class Game(Window):
         quitB = ttk.Button(self.optionsFrame,command=self.quit,text="Quit",
                            style="smallOptions.TButton",width=4)
 
-        timer.grid(row=0,rowspan=2,sticky="nsew")
-        mines.grid(row=2,rowspan=2,sticky="nsew")
-        saveB.grid(row=1,column=1,rowspan=5,columnspan=3,sticky="nsew")
-        quitB.grid(row=7,column=1,rowspan=5,columnspan=3,sticky="nsew")
+        timer.grid(row=0,sticky="nsew")
+        mines.grid(row=1,sticky="nsew")
+        saveB.grid(row=1,column=1,rowspan=8,columnspan=3,sticky="nsew")
+        quitB.grid(row=14,column=1,rowspan=8,columnspan=3,sticky="nsew")
 
         if not _continue:
             self.generateField(0,0)

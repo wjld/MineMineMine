@@ -2,12 +2,12 @@ def style(window,s,x,y):
     s.configure("title.TLabel",anchor="center",font=("Courier New",
                 int(-y*0.088)))
     s.configure("stats.TLabel",anchor="center",font=("Courier New",
-                int(-y*0.150)))
+                int(-y*0.100)))
     s.configure("highscore.TLabel",font=("Courier New",int(-y*0.046)))
     s.configure("dialog.TLabel",font=("Courier New",int(-y*0.045)),
                              justify="center",anchor="center")
     s.configure("options.TButton",font=("Courier New",int(-y*0.04)))
-    s.configure("smallOptions.TButton",font=("Courier New",int(-y*0.033)))
+    s.configure("smallOptions.TButton",font=("Courier New",int(-y*0.023)))
 
 def color(square,row,column,opened,flagged,mined,hovering,ended):
     if mined and ended and not opened:

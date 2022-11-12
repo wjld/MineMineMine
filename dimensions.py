@@ -12,7 +12,7 @@ def mainFrame(x,y):
     return [20,50,x//20,y//50]
 
 def statsFrame(minTopRowY,x):
-    return [1,4,x//2,minTopRowY//4]
+    return [1,2,x//2,minTopRowY//2]
 
 def optionsFrame(minTopRowY,x):
-    return [5,20,x//10,minTopRowY//20]
+    return [5,40,x//10,minTopRowY//40]
